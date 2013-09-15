@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+ <html>
+ <head>
+			<meta charset="utf-8">
+			<title>WEIO &middot; Configurator</title>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<meta name="description" content="">
+			<meta name="author" content="">
+
+			<style type="text/css">
+      body {
+        padding-top: 20px;
+        padding-bottom: 40px;
+      }
+
+      /* Custom container */
+      .container-narrow {
+        margin: 0 auto;
+        max-width: 700px;
+      }
+      .container-narrow > hr {
+        margin: 30px 0;
+      }
+
+      /* Main marketing message and sign up button */
+      .jumbotron {
+        margin: 60px 0;
+        text-align: center;
+      }
+      .jumbotron h1 {
+        font-size: 72px;
+        line-height: 1;
+      }
+      .jumbotron .btn {
+        font-size: 21px;
+        padding: 14px 24px;
+      }
+
+      /* Supporting marketing content */
+      .marketing {
+        margin: 60px 0;
+      }
+      .marketing p + h4 {
+        margin-top: 28px;
+      }
+    </style>
+
+
+	 <!--     <link rel="stylesheet" href="http://flip.hr/css/bootstrap.min.css"> -->
+			<!-- Bootstrap -->
+		   <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+			<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+ </head>
+ <body>
+
+<script>
+		  var sockjs_url = '/weio';
+        //var sockjs_url = 'http://localhost:8080/static/weio';		 
+        var sockjs = new SockJS(sockjs_url);
+
+        var div  = $('#cfgreq div');
+
+        var print = function(m, p) {
+            p = (p === undefined) ? '' : JSON.stringify(p);
+            div.append($("<code>").text(m + ' ' + p));
+            div.append($("<br>"));
+            div.scrollTop(div.scrollTop()+10000);
+        };
+
+		  // ONOPEN
+        sockjs.onopen    = function()  {print('[*] open', sockjs.protocol);};
+
+
+		  // ONMESSAGE
+		  sockjs.onmessage = function(e) {
+			  
+			  //console.log(e.data);
+
+			  var cfgst = e.data;
+			  if (cfgst != "ERR_CFG") {
+				  cfgst = "CFG_OK"
+			  }
+			  print('[.] message', cfgst);
+
+			  // Present output
+			  //$('#cfgrsp').html(e.data.replace(/\n/g, "<br />"));
+			  $('#cfgrsp').append(e.data);
+		  };
+
+		  // ONCLOSE
+        sockjs.onclose   = function()  {print('[*] close');};
+</script>
+
+<script>
+		$(document).ready(function(){
+			$("#btn1").click(function(){
+				print('[ ] sending WIFI_CONF_REQ');
+				sockjs.send("WIFI_CONF_REQ");
+			});
+		});
+</script>
+
+
+
+
+
+<!-- Le HTML -->
+
+    <div class="container-narrow">
+
+      <div class="masthead">
+
+<!--
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+	  </ul>
+-->
+        <h3 class="muted">WEIO PIPE TEST</h3>
+      </div>
+
+      <hr>
+
+      <div class="jumbotron">
+        <h1>Weio PIPE Test</h1>
+        <p class="lead">Press button to start process</p>
+        <a id="btn1" class="btn btn-large btn-success" href="#">Detect Networks</a>
+      </div>
+
+      <hr>
+
+
+      <div class="row-fluid marketing">
+        <div class="span12">
+			<h4>Remote process stdio :</h4>
+
+			<pre id="cfgrsp"></pre>
+
+<!--
+			<table data-provides="rowlink">
+				<tr><td><a href="javascript.html#modals">Modals</a></td><td class="nolink"><a href="#">Action</a></td></tr>
+				<tr><td><a href="javascript.html#dropdowns">Dropdowns</a></td><td class="nolink"><a href="#">Action</a></td></tr>
+			</table>
+-->
+
+      </div>
+	</div>
+
+      <hr>
+
+      <div class="footer">
+        <p>&copy; Company 2012</p>
+      </div>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	 <!--
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap-transition.js"></script>
+    <script src="js/bootstrap-alert.js"></script>
+    <script src="js/bootstrap-modal.js"></script>
+    <script src="js/bootstrap-dropdown.js"></script>
+    <script src="js/bootstrap-scrollspy.js"></script>
+    <script src="js/bootstrap-tab.js"></script>
+    <script src="js/bootstrap-tooltip.js"></script>
+    <script src="js/bootstrap-popover.js"></script>
+    <script src="js/bootstrap-button.js"></script>
+    <script src="js/bootstrap-collapse.js"></script>
+    <script src="js/bootstrap-carousel.js"></script>
+	<script src="js/bootstrap-typeahead.js"></script>
+	<script src="js/bootstrap-rowlink.min.js"></script>
+	-->
+
+  </body>
+</html>
+
