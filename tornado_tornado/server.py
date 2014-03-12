@@ -40,27 +40,6 @@ class IndexHandler(tornado.web.RequestHandler):
         self.render('index.html')
 
 
-class UserHandler(sockjs.tornado.SockJSConnection):
-    """Opens editor route."""
-    def on_open(self, data):
-        """On open asks weio for last saved project. List of files are scaned and sent to editor.
-        Only contents of weioMain.py is sent at first time"""
-        print "Opened WEIO API socket"
-
-    def on_message(self, data):
-        """Parsing JSON data that is comming from browser into python object"""
-        self.req = json.loads(data)
-        print data
-        print self.req['request']
-
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
-        self.stream = tornado.iostream.IOStream(s)
-        self.stream.connect(("localhost", 8087), self.send_request)
-
-    def send_request(self):
-        stream.write(self.req)
-
-
 class TestHandler(sockjs.tornado.SockJSConnection): 
     i = 0
     def open(self):
@@ -131,11 +110,10 @@ if __name__ == "__main__":
 
     # 1. Create weio router
     TestRouter = sockjs.tornado.SockJSRouter(TestHandler, '/test')
-    UserRouter = sockjs.tornado.SockJSRouter(UserHandler, '/user')
 
     # 2. Create Tornado application
     app = tornado.web.Application(
-            list(TestRouter.urls) + list(UserRouter.urls) +
+            list(TestRouter.urls) +
             [(r"/", IndexHandler), (r"/(.*)", tornado.web.StaticFileHandler,
 	 				{"path": ".", "default_filename": "index.html"})],
             debug=True)
