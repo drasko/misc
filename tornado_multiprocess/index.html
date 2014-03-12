@@ -1,0 +1,56 @@
+<!doctype html>
+<html><head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    </head>
+
+    <body lang="en">
+    <h1>SockJS Echo example</h1>
+    <div class="row-fluid">
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <button id="btnTest" type="button" class="btn btn-primary btn-lg">Start/Stop</button>
+            <button id="btnUser" type="button" class="btn btn-primary btn-lg">User</button>
+        </div>
+        <div class="col-md-8"></div>
+    </div>
+
+
+    <script>
+        var sockjs_test_url = 'http://localhost:8082/play';       
+        var sockjs_test = new SockJS(sockjs_test_url);
+
+        sockjs_test.onopen    = function()  {console.log('[*] TEST open');};
+        sockjs_test.onclose   = function()  {console.log('[*] TEST close');};
+
+        var sockjs_user_url = 'http://localhost:8081/user';       
+        var sockjs_user = new SockJS(sockjs_user_url);
+
+        sockjs_user.onopen    = function()  {console.log('[*] USER open');};
+        sockjs_user.onclose   = function()  {console.log('[*] USER close');};
+
+        var i = 1;
+
+        $(document).ready(function(){
+            $("#btnTest").click(function(){
+                if (i) {
+                    sockjs_test.send("START");
+                } else {
+                    sockjs_test.send("STOP");
+                }
+                i = !(i && i);
+                console.log(i);
+            });
+
+            $("#btnUser").click(function(){
+                var rq = { "request": "testUser"};
+                sockjs_user.send(JSON.stringify(rq));
+            });
+		});
+    </script>
+
+</body></html>
