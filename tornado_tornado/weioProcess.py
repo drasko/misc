@@ -48,9 +48,8 @@ if __name__ == '__main__':
     app = tornado.web.Application([
             (r'/', MainHandler)]
     )
-    app.listen(8087)
-
-    logging.info(" [*] Listening on 0.0.0.0:8087")
+    #app.listen(8087)
+    #logging.info(" [*] Listening on 0.0.0.0:8087")
 
     WeioUserSetup()
 

@@ -18,7 +18,6 @@ from weioUserApi import *
 
 
 
-import socket
 import sys
 import os
 
@@ -123,7 +122,7 @@ if __name__ == "__main__":
     logging.info(" [*] Listening on 0.0.0.0:8081")
 
     http_server = tornado.httpserver.HTTPServer(app)
-    http_server.listen(tornado.options.options.port)
+    http_server.listen(tornado.options.options.port, address='0.0.0.0')
 
     # 4. Start IOLoop
     tornado.ioloop.IOLoop.instance().start()

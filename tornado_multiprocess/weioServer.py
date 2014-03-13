@@ -79,7 +79,7 @@ def main():
     logging.info(" [*] Listening on 0.0.0.0:8081")
 
     http_server = tornado.httpserver.HTTPServer(app)
-    http_server.listen(tornado.options.options.port)
+    http_server.listen(tornado.options.options.port, address='0.0.0.0')
 
     print("weioMain indipendent process launching...")
     processName = "weioUser.py"
