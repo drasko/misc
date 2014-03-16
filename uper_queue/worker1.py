@@ -6,11 +6,11 @@ import includeUper as u
 def hello():
     print "HELLO"
 
-def main(qin, qout, l):
+def main(qin, qout, sem):
     """worker function"""
     print 'Worker'
 
-    uper = u.UPER(qin, qout, l)
+    uper = u.UPER(qin, qout, sem)
 
     uper.setSecondary(22)
     uper.pwm0_begin(1000)
