@@ -40,7 +40,7 @@ def main():
 
     return
 
-def weioTaskMain(u, m):
+def weioTaskMain(userFunction, u, m):
     # Set globals for this process context
     global uper
     global mutex
@@ -49,7 +49,7 @@ def weioTaskMain(u, m):
     mutex = m
 
     # Call users function
-    main()
+    userFunction()
 
 
 

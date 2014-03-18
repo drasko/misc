@@ -5,7 +5,12 @@ import multiprocessing
 import logging
 import time
 
-from weioMultiApi import *
+#uper = None
+#mutex = None
+
+#from worker1 import *
+
+import weioMultiApi
 
 class WeioTask(multiprocessing.Process):
     def __init__(self, userFunction, u, m):
@@ -27,6 +32,10 @@ class WeioTask(multiprocessing.Process):
         print 'Starting:', p.name, p.pid
 
         # Call the function that user provided
-        self.userFunction()
+        #self.userFunction(self.u, self.m)
+        weioMultiApi.weioTaskMain(self.userFunction, self.uper, self.mutex)
+
+        while True:
+            pass
 
         return
